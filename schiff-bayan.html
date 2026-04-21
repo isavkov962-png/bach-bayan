@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Андраш Шифф — принципи для баяніста</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1612;
+  --ink-soft: #4a3f35;
+  --ink-muted: #8a7a6e;
+  --parch: #f5f0e8;
+  --parch-warm: #ede7d9;
+  --parch-border: #d4c9b5;
+  --accent: #7c3b1e;
+  --accent-soft: #b85c36;
+  --accent-pale: #f2e8e0;
+  --teal: #1d5c52;
+  --teal-pale: #e0eeec;
+  --blue: #1e3d6e;
+  --blue-pale: #e3eaf4;
+  --gold: #8a6d1a;
+  --gold-pale: #f4eed8;
+  --rose: #7a2c4a;
+  --rose-pale: #f4e3eb;
+  --sage: #3d5c3a;
+  --sage-pale: #e5ede4;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--parch);
+  color: var(--ink);
+  min-height: 100vh;
+  font-weight: 300;
+}
+
+.site-header {
+  background: var(--ink);
+  color: var(--parch);
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent, transparent 40px,
+    rgba(255,255,255,0.015) 40px, rgba(255,255,255,0.015) 41px
+  );
+}
+.header-sup {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--accent-soft); margin-bottom: 0.75rem;
+}
+.header-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 500; line-height: 1.15; color: var(--parch);
+  margin-bottom: 0.5rem;
+}
+.header-title em { font-style: italic; color: #d4a882; }
+.header-sub { font-size: 13px; color: #aaa; font-weight: 300; letter-spacing: 0.04em; }
+.header-divider { width: 60px; height: 1px; background: var(--accent-soft); margin: 1.25rem auto 0; opacity: 0.6; }
+
+.stats-bar {
+  display: flex; justify-content: center;
+  background: var(--ink-soft);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.stat-item {
+  padding: 0.85rem 2rem; text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  flex: 1; max-width: 150px;
+}
+.stat-item:last-child { border-right: none; }
+.stat-n { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 500; color: #d4a882; }
+.stat-l { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #aaa; margin-top: 1px; }
+
+.controls { max-width: 880px; margin: 2rem auto 0; padding: 0 1.5rem; }
+
+.search-wrap { position: relative; margin-bottom: 1rem; }
+.search-wrap input {
+  width: 100%; padding: 10px 16px 10px 40px;
+  border: 1px solid var(--parch-border); border-radius: 4px;
+  background: #fff; font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 300;
+  color: var(--ink); outline: none; transition: border-color 0.2s;
+}
+.search-wrap input:focus { border-color: var(--accent-soft); }
+.search-wrap input::placeholder { color: var(--ink-muted); }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-muted); font-size: 15px; pointer-events: none; }
+
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.fbtn {
+  padding: 5px 14px; font-size: 12px; font-weight: 400; letter-spacing: 0.03em;
+  border-radius: 99px; cursor: pointer; border: 1px solid var(--parch-border);
+  background: #fff; color: var(--ink-soft); transition: all 0.15s; white-space: nowrap;
+}
+.fbtn:hover { border-color: var(--accent-soft); color: var(--accent); }
+.fbtn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.fbtn .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+
+.main { max-width: 880px; margin: 1.5rem auto 3rem; padding: 0 1.5rem; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+
+.card {
+  background: #fff; border: 1px solid var(--parch-border); border-radius: 6px;
+  overflow: hidden; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s;
+  border-top: 3px solid transparent;
+}
+.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.card.open { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+
+.card-top { padding: 1rem 1.1rem 0.9rem; }
+.card-row { display: flex; align-items: flex-start; gap: 10px; }
+.card-num { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; line-height: 1; opacity: 0.25; flex-shrink: 0; margin-top: 2px; }
+.card-meta { flex: 1; }
+.card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; line-height: 1.35; color: var(--ink); }
+.card-badge { display: inline-block; margin-top: 5px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
+.chevron { font-size: 11px; color: var(--ink-muted); transition: transform 0.2s; flex-shrink: 0; margin-top: 4px; }
+.card.open .chevron { transform: rotate(180deg); }
+
+.card-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; padding: 0 1.1rem; }
+.card-body.open { max-height: 700px; padding-bottom: 1.1rem; }
+.body-inner { padding-top: 0.9rem; border-top: 1px solid var(--parch-border); }
+
+.section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+.quote-block { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; line-height: 1.65; color: var(--ink-soft); padding-left: 12px; border-left: 2px solid var(--parch-border); margin-bottom: 12px; }
+.bayan-block { font-size: 13px; line-height: 1.7; color: var(--ink); font-weight: 300; }
+
+.cat-articulation .card { border-top-color: #7c3b1e; }
+.cat-articulation .card-badge { background: var(--accent-pale); color: var(--accent); }
+.cat-articulation .section-label { color: var(--accent); }
+
+.cat-touch .card { border-top-color: #1d5c52; }
+.cat-touch .card-badge { background: var(--teal-pale); color: var(--teal); }
+.cat-touch .section-label { color: var(--teal); }
+
+.cat-phrasing .card { border-top-color: #1e3d6e; }
+.cat-phrasing .card-badge { background: var(--blue-pale); color: var(--blue); }
+.cat-phrasing .section-label { color: var(--blue); }
+
+.cat-sound .card { border-top-color: #8a6d1a; }
+.cat-sound .card-badge { background: var(--gold-pale); color: var(--gold); }
+.cat-sound .section-label { color: var(--gold); }
+
+.cat-style .card { border-top-color: #7a2c4a; }
+.cat-style .card-badge { background: var(--rose-pale); color: var(--rose); }
+.cat-style .section-label { color: var(--rose); }
+
+.cat-practice .card { border-top-color: #3d5c3a; }
+.cat-practice .card-badge { background: var(--sage-pale); color: var(--sage); }
+.cat-practice .section-label { color: var(--sage); }
+
+.empty { text-align: center; padding: 4rem 1rem; color: var(--ink-muted); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; }
+
+footer { text-align: center; padding: 1.5rem 1rem; font-size: 11px; color: var(--ink-muted); letter-spacing: 0.05em; border-top: 1px solid var(--parch-border); margin-top: 1rem; }
+
+@media (max-width: 600px) {
+  .site-header { padding: 1.75rem 1rem 1.5rem; }
+  .stat-item { padding: 0.7rem 1rem; }
+  .controls, .main { padding: 0 1rem; }
+  .cards-grid { grid-template-columns: 1fr; }
+}
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.card { animation: fadeIn 0.3s ease both; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-sup">Мистецтво виконавства</div>
+  <h1 class="header-title">Андраш <em>Шифф</em><br>— принципи для баяніста</h1>
+  <p class="header-sub">Виконавська школа великого піаніста, адаптована для баяну</p>
+  <div class="header-divider"></div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-n" id="shown-n">18</div><div class="stat-l">показано</div></div>
+  <div class="stat-item"><div class="stat-n">18</div><div class="stat-l">принципів</div></div>
+  <div class="stat-item"><div class="stat-n">6</div><div class="stat-l">категорій</div></div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="text" id="search" placeholder="Пошук принципів...">
+  </div>
+  <div class="filter-row" id="filters">
+    <button class="fbtn active" data-cat="all">Всі</button>
+    <button class="fbtn" data-cat="articulation"><span class="dot" style="background:#7c3b1e"></span>Артикуляція</button>
+    <button class="fbtn" data-cat="touch"><span class="dot" style="background:#1d5c52"></span>Туше</button>
+    <button class="fbtn" data-cat="phrasing"><span class="dot" style="background:#1e3d6e"></span>Фразування</button>
+    <button class="fbtn" data-cat="sound"><span class="dot" style="background:#8a6d1a"></span>Звук і тембр</button>
+    <button class="fbtn" data-cat="style"><span class="dot" style="background:#7a2c4a"></span>Стиль і текст</button>
+    <button class="fbtn" data-cat="practice"><span class="dot" style="background:#3d5c3a"></span>Праця над п'єсою</button>
+  </div>
+</div>
+
+<main class="main">
+  <div class="cards-grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none;">Нічого не знайдено</div>
+</main>
+
+<footer>Принципи Андраша Шиффа — адаптація для баяну · Ігор Савков</footer>
+
+<script>
+const CAT_LABELS = {
+  articulation: "Артикуляція",
+  touch: "Туше / Дотик",
+  phrasing: "Фразування",
+  sound: "Звук і тембр",
+  style: "Стиль і текст",
+  practice: "Праця над п'єсою"
+};
+
+const data = [
+  { cat:"articulation", title:"Кожна нота — слово, кожна фраза — речення", quote:"Bach speaks. Every note has a syllable, every phrase has syntax. I never play without knowing the grammatical function of each sound.", bayan:"На баяні — усвідомлюй «граматику»: яка нота є наголошеним складом, яка — ненаголошеним. Використовуй різну глибину натискання клавіші (пальцеве туше) та мікродинаміку міха, щоб передати цю ієрархію." },
+  { cat:"articulation", title:"Non legato як природній стан Баха", quote:"The default touch in Bach is not legato. Legato must be earned, justified. Detachment is the breath between words.", bayan:"На баяні: non legato — основа. Уникай «склеювання» нот через безперервний рух міха. Невелика пауза між звуками не мертва тиша — це дихання фрази. Legato використовуй лише там, де Бах говорить зв'язно." },
+  { cat:"articulation", title:"Різниця між зв'язними і незв'язними мотивами", quote:"When two motives contrast — one slurred, one detached — the difference must be audible, dramatic, almost exaggerated.", bayan:"Контраст legato/staccato на баяні будується через: а) глибину натискання клавіші; б) кут і швидкість руху міха; в) зміну артикуляції лівої руки окремо від правої." },
+  { cat:"touch", title:"Звук народжується до натискання", quote:"Before I touch a key, I hear the sound in my mind. The finger arrives already knowing its destination.", bayan:"Перед кожною фразою — уяви звук внутрішньо. На баяні особливо важливо: міх вже «живе» (попередній натиск повітря), і палець торкається клавіші вже з внутрішнім образом звуку." },
+  { cat:"touch", title:"Вагові, а не ударні імпульси", quote:"I do not strike the piano. I place weight into it. The arm is heavy, the finger is its focused point.", bayan:"На баяні «вага» — це тиск міха у поєднанні з глибиною клавіші. Не «бий» по кнопці — «занурюй» палець з вагою передпліччя. Різниця: удар дає сухий початковий акцент, вага — теплий повний звук." },
+  { cat:"touch", title:"Незалежність рук — не лише технічна", quote:"The left hand sings a different character than the right. They are two separate voices, two separate people on stage.", bayan:"Права рука — повний тиск клавіші, багатий спектр обертонів (мелодія). Ліва — мінімальний хід клапана, м'яке стаккато/портато (акомпанемент). Різниця спектральна: слухач сприймає як динамічну — це «туше» за Давидовим." },
+  { cat:"phrasing", title:"Фраза дихає — вершина і спад", quote:"Every phrase has a single point of highest tension. Everything else prepares it or releases it. Never equal stress throughout.", bayan:"Крещендо міха до вершини фрази — природно, але важливо: уникай механічного «горба». Шифф шукає кожного разу нову вершину. На баяні: кут руху міха + пальцеве туше разом формують нюансовий профіль." },
+  { cat:"phrasing", title:"Довгі ноти не статичні", quote:"A held note is never a dead note. It has direction — it leans forward, or it fades, or it intensifies. It is always going somewhere.", bayan:"Довга нота на баяні — динамічний процес: мікрозміни тиску міха, можливо легке вібрато (але обережно у Баху). Нота «дихає» — це найсильніша відмінність живого виконання від запису." },
+  { cat:"phrasing", title:"Каденційні ноти — не фінал, а риторика", quote:"The last note of a phrase is not an ending but a punctuation mark. Sometimes a period, sometimes a comma, sometimes a question.", bayan:"Вчись «ставити розділові знаки» мехом і артикуляцією. Крапка — зупинка і легке стаккато. Кома — коротка пауза без повного відриву. Знак питання — підйом напруги без розв'язки." },
+  { cat:"sound", title:"Баланс голосів — поліфонічний слух", quote:"In Bach, you must hear all voices simultaneously — not as melody plus accompaniment, but as equals in dialogue.", bayan:"Баян дозволяє справжню поліфонію. Кожен голос потребує власного туше, тембру, артикуляції. Використовуй різні регістри для голосів: тема — кларнет 8', контрапункт — флейта 4', бас — фагот 16'." },
+  { cat:"sound", title:"Різниця тембру — не педаль, а артикуляція", quote:"At the piano I use different touches to imitate lute, clavichord, organ, harpsichord. The instrument is my whole orchestra.", bayan:"У баяніста тембральна палітра ширша: регістри + туше + мех. Органний стиль — фіксований міх, non legato. Лютневий — сухий, detaché, без вібрато. Клавесинний — нон легато, рівний динамічний рівень." },
+  { cat:"sound", title:"Тиша теж є музика", quote:"The rest is not the absence of sound — it is a sound itself. I prepare it, I shape it, I release it like a note.", bayan:"Пауза на баяні: зупини міх — але не «вбий» звук різко. Легкий відхід тиску. Потім — мить тиші, яка «звучить». Особливо важливо після риторичних фігур — suspiratio, exclamatio." },
+  { cat:"style", title:"Читай партитуру очима Баха", quote:"I study not only what is written but what Bach did not write — the conventions, the rhetoric, the implied ornaments.", bayan:"Вивчай Affektenlehre. Кожна фігура — риторичний символ. Suspiratio — зітхання: пауза перед висхідним рухом. Exclamatio — вигук: підкреслений стрибок вгору. Реалізуй їх мехом і туше." },
+  { cat:"style", title:"Орнаменти — не прикраса, а риторика", quote:"An ornament in Bach is never decorative. It is structural — it emphasizes, it delays, it releases tension. It must be placed with grammatical precision.", bayan:"Прикраси у Баху на баяні: виконуй від верхньої ноти на сильній долі. Трель — від верхнього допоміжного звуку. Мордент — чіткий, не розмитий. Аподжатура — затримана, з нюансом на ній." },
+  { cat:"style", title:"Відчуй форму як архітектуру", quote:"Bach's fugue is a cathedral. You must feel the whole building while playing each stone.", bayan:"Перед виконанням — намалюй «карту» форми: де вершина, де спади, де точки повороту. Кожна фраза звучить у контексті цілого. Баянна специфіка: план динаміки міха складай заздалегідь." },
+  { cat:"practice", title:"Повільна праця — швидкий результат", quote:"I practice slowly not to learn the notes but to learn the music. Speed comes last, and it comes freely.", bayan:"Повільне темпо на баяні — час для контролю туше, глибини клавіші, кута міха. Але повільно — не механічно: кожна нота вже мусить мати правильний характер, артикуляцію, нюанс." },
+  { cat:"practice", title:"Спів і внутрішня слухова уява", quote:"I sing everything I play. If I cannot sing it, I cannot play it. The voice is the first instrument.", bayan:"Співай фразу перед тим, як грати. Баяніст схильний до «технічного» мислення — регістри, міх. Спів повертає до музики. Внутрішнє «чую» завжди випереджає фізичну дію." },
+  { cat:"practice", title:"Кожне виконання — відкриття", quote:"I have played the Goldberg Variations hundreds of times. Each time I find something new. That is the sign of great music.", bayan:"Не «відтворюй» раніше вивчене — шукай нове у кожній репетиції. Зміни темп, артикуляцію, регістр — і почуй твір по-новому. Баян дає для цього більше засобів, ніж будь-який клавішний інструмент." }
+];
+
+let currentCat = "all", currentSearch = "", openIdx = null;
+
+function render() {
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  const q = currentSearch.toLowerCase();
+  const filtered = data.map((p,i) => ({...p,origIdx:i})).filter(p => {
+    const catOk = currentCat === "all" || p.cat === currentCat;
+    const textOk = !q || p.title.toLowerCase().includes(q) || p.bayan.toLowerCase().includes(q);
+    return catOk && textOk;
+  });
+  document.getElementById("shown-n").textContent = filtered.length;
+  if (!filtered.length) { grid.innerHTML=""; empty.style.display="block"; return; }
+  empty.style.display = "none";
+  grid.innerHTML = filtered.map((p,i) => {
+    const isOpen = openIdx === p.origIdx;
+    return `<div class="card cat-${p.cat}${isOpen?" open":""}" onclick="toggle(${p.origIdx})" style="animation-delay:${i*0.04}s">
+      <div class="card-top">
+        <div class="card-row">
+          <div class="card-num">${String(p.origIdx+1).padStart(2,"0")}</div>
+          <div class="card-meta">
+            <div class="card-title">${p.title}</div>
+            <span class="card-badge">${CAT_LABELS[p.cat]}</span>
+          </div>
+          <div class="chevron">${isOpen?"▲":"▼"}</div>
+        </div>
+      </div>
+      <div class="card-body${isOpen?" open":""}">
+        <div class="body-inner">
+          <div class="section-label">Шифф — оригінал:</div>
+          <div class="quote-block">${p.quote}</div>
+          <div class="section-label">Адаптація для баяну:</div>
+          <div class="bayan-block">${p.bayan}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function toggle(idx) { openIdx = openIdx===idx ? null : idx; render(); }
+
+document.getElementById("filters").addEventListener("click", e => {
+  const btn = e.target.closest(".fbtn");
+  if (!btn) return;
+  currentCat = btn.dataset.cat; openIdx = null;
+  document.querySelectorAll(".fbtn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active"); render();
+});
+
+document.getElementById("search").addEventListener("input", e => {
+  currentSearch = e.target.value; openIdx = null; render();
+});
+
+render();
+</script>
+</body>
+</html>
