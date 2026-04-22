@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Давидов — Майстерність баяніста</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #12100e;
+  --ink-soft: #3a3028;
+  --ink-muted: #7a6e60;
+  --bg: #f7f3ed;
+  --border: #d5c9b8;
+  --accent: #5c3d1a;
+  --accent-soft: #8a5c2a;
+  --accent-pale: #f2e8d8;
+  --teal: #1a4a3c;
+  --teal-pale: #ddeee8;
+  --blue: #1e3558;
+  --blue-pale: #dde4f0;
+  --rose: #5c1a2a;
+  --rose-pale: #f0dde2;
+  --gold: #5c4a10;
+  --gold-pale: #f2ead4;
+  --sage: #2a4020;
+  --sage-pale: #e0ead8;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; font-weight: 300; }
+
+.site-header {
+  background: var(--ink);
+  padding: 2.5rem 2rem 2rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.site-header::before {
+  content: ''; position: absolute; inset: 0;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 50px, rgba(255,255,255,0.013) 50px, rgba(255,255,255,0.013) 51px);
+}
+.header-sup { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #c8a06a; margin-bottom: 0.75rem; }
+.header-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 500; line-height: 1.15; color: #f0ebe2; margin-bottom: 0.4rem; }
+.header-title em { font-style: italic; color: #c8a06a; }
+.header-sub { font-size: 13px; color: #9a8a78; font-weight: 300; letter-spacing: 0.04em; }
+.header-divider { width: 60px; height: 1px; background: #c8a06a; margin: 1.25rem auto 0; opacity: 0.55; }
+
+.stats-bar { display: flex; justify-content: center; background: var(--ink-soft); border-bottom: 1px solid rgba(255,255,255,0.07); }
+.stat-item { padding: 0.85rem 2rem; text-align: center; border-right: 1px solid rgba(255,255,255,0.07); flex: 1; max-width: 150px; }
+.stat-item:last-child { border-right: none; }
+.stat-n { font-family: 'Cormorant Garamond', serif; font-size: 1.6rem; font-weight: 500; color: #c8a06a; }
+.stat-l { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #9a8a78; margin-top: 1px; }
+
+.controls { max-width: 920px; margin: 2rem auto 0; padding: 0 1.5rem; }
+.search-wrap { position: relative; margin-bottom: 1rem; }
+.search-wrap input { width: 100%; padding: 10px 16px 10px 40px; border: 1px solid var(--border); border-radius: 4px; background: #fff; font-family: 'Lato', sans-serif; font-size: 14px; font-weight: 300; color: var(--ink); outline: none; transition: border-color 0.2s; }
+.search-wrap input:focus { border-color: var(--accent-soft); }
+.search-wrap input::placeholder { color: var(--ink-muted); }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-muted); font-size: 15px; pointer-events: none; }
+
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.fbtn { padding: 5px 14px; font-size: 12px; font-weight: 400; letter-spacing: 0.03em; border-radius: 99px; cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--ink-soft); transition: all 0.15s; white-space: nowrap; }
+.fbtn:hover { border-color: var(--accent-soft); color: var(--accent); }
+.fbtn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+.fbtn .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+
+.main { max-width: 920px; margin: 1.5rem auto 3rem; padding: 0 1.5rem; }
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(285px, 1fr)); gap: 14px; }
+
+.card { background: #fff; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; cursor: pointer; transition: box-shadow 0.2s, transform 0.15s; border-top: 3px solid transparent; }
+.card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.card.open { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+
+.card-top { padding: 1rem 1.1rem 0.9rem; }
+.card-row { display: flex; align-items: flex-start; gap: 10px; }
+.card-num { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 400; line-height: 1; opacity: 0.22; flex-shrink: 0; margin-top: 2px; }
+.card-meta { flex: 1; }
+.card-title { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-weight: 500; line-height: 1.35; color: var(--ink); }
+.card-badge { display: inline-block; margin-top: 5px; font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 3px; }
+.chevron { font-size: 11px; color: var(--ink-muted); transition: transform 0.2s; flex-shrink: 0; margin-top: 4px; }
+.card.open .chevron { transform: rotate(180deg); }
+
+.card-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; padding: 0 1.1rem; }
+.card-body.open { max-height: 800px; padding-bottom: 1.1rem; }
+.body-inner { padding-top: 0.9rem; border-top: 1px solid var(--border); }
+
+.section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+.theory-block { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-style: italic; line-height: 1.65; color: var(--ink-soft); padding-left: 12px; border-left: 2px solid var(--border); margin-bottom: 12px; }
+.practice-block { font-size: 13px; line-height: 1.75; color: var(--ink); font-weight: 300; }
+
+.cat-tushe .card { border-top-color: #5c3d1a; }
+.cat-tushe .card-badge { background: var(--accent-pale); color: var(--accent); }
+.cat-tushe .section-label { color: var(--accent); }
+
+.cat-mekh .card { border-top-color: #1a4a3c; }
+.cat-mekh .card-badge { background: var(--teal-pale); color: var(--teal); }
+.cat-mekh .section-label { color: var(--teal); }
+
+.cat-style .card { border-top-color: #1e3558; }
+.cat-style .card-badge { background: var(--blue-pale); color: var(--blue); }
+.cat-style .section-label { color: var(--blue); }
+
+.cat-baroque .card { border-top-color: #5c1a2a; }
+.cat-baroque .card-badge { background: var(--rose-pale); color: var(--rose); }
+.cat-baroque .section-label { color: var(--rose); }
+
+.cat-classicism .card { border-top-color: #5c4a10; }
+.cat-classicism .card-badge { background: var(--gold-pale); color: var(--gold); }
+.cat-classicism .section-label { color: var(--gold); }
+
+.cat-regs .card { border-top-color: #2a4020; }
+.cat-regs .card-badge { background: var(--sage-pale); color: var(--sage); }
+.cat-regs .section-label { color: var(--sage); }
+
+.empty { text-align: center; padding: 4rem 1rem; color: var(--ink-muted); font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; }
+footer { text-align: center; padding: 1.5rem 1rem; font-size: 11px; color: var(--ink-muted); letter-spacing: 0.05em; border-top: 1px solid var(--border); margin-top: 1rem; }
+
+@media (max-width: 600px) {
+  .site-header { padding: 1.75rem 1rem 1.5rem; }
+  .stat-item { padding: 0.7rem 1rem; }
+  .controls, .main { padding: 0 1rem; }
+  .cards-grid { grid-template-columns: 1fr; }
+}
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.card { animation: fadeIn 0.3s ease both; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-sup">Теорія виконавської майстерності</div>
+  <h1 class="header-title">Микола <em>Давидов</em><br>— майстерність баяніста</h1>
+  <p class="header-sub">«Теоретичні основи формування виконавської майстерності баяніста» · практичний посібник</p>
+  <div class="header-divider"></div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-item"><div class="stat-n" id="shown-n">24</div><div class="stat-l">показано</div></div>
+  <div class="stat-item"><div class="stat-n">24</div><div class="stat-l">принципів</div></div>
+  <div class="stat-item"><div class="stat-n">6</div><div class="stat-l">розділів</div></div>
+</div>
+
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">⌕</span>
+    <input type="text" id="search" placeholder="Пошук принципів...">
+  </div>
+  <div class="filter-row" id="filters">
+    <button class="fbtn active" data-cat="all">Всі</button>
+    <button class="fbtn" data-cat="tushe"><span class="dot" style="background:#5c3d1a"></span>Пальцеве туше</button>
+    <button class="fbtn" data-cat="mekh"><span class="dot" style="background:#1a4a3c"></span>Робота міха</button>
+    <button class="fbtn" data-cat="style"><span class="dot" style="background:#1e3558"></span>Стильове виконання</button>
+    <button class="fbtn" data-cat="baroque"><span class="dot" style="background:#5c1a2a"></span>Бароко</button>
+    <button class="fbtn" data-cat="classicism"><span class="dot" style="background:#5c4a10"></span>Класицизм</button>
+    <button class="fbtn" data-cat="regs"><span class="dot" style="background:#2a4020"></span>Регістри</button>
+  </div>
+</div>
+
+<main class="main">
+  <div class="cards-grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none;">Нічого не знайдено</div>
+</main>
+
+<footer>М. А. Давидов · Теоретичні основи формування виконавської майстерності баяніста · адаптація: Ігор Савков</footer>
+
+<script>
+const CAT_LABELS = {
+  tushe: "Пальцеве туше",
+  mekh: "Робота міха",
+  style: "Стильове виконання",
+  baroque: "Бароко",
+  classicism: "Класицизм",
+  regs: "Регістри"
+};
+
+const data = [
+  // ПАЛЬЦЕВЕ ТУШЕ
+  {
+    cat: "tushe",
+    title: "Глибина натискання — джерело звуку",
+    theory: "Глибина натискання клавіші керує потоком повітря через язичок — це первинний регулятор тембру і характеру звуку.",
+    practice: "Неповне відкриття клапана дає матовий, приглушений звук з бідним обертональним спектром. Повне натискання — яскравий, насичений звук. Різниця не в децибелах, а у спектрі: слухач сприймає її як динамічну. Давидов називає це «інтелектуалізацією техніки»."
+  },
+  {
+    cat: "tushe",
+    title: "Права рука — глибоке туше для мелодії",
+    theory: "Права рука веде мелодію — вона потребує повного, глибокого натискання клавіші для багатого обертонального звучання.",
+    practice: "Палець «занурюється» в клавішу з вагою передпліччя — не удар, а вага. Результат: повний, інтонаційно насичений звук. Це принципова відмінність мелодичного голосу від акомпанементу на баяні."
+  },
+  {
+    cat: "tushe",
+    title: "Ліва рука — мінімальний хід клапана",
+    theory: "Ліва рука в акомпанементі потребує принципово іншого туше: пальці близько до клавіатури, мінімальне відкриття клапана.",
+    practice: "Легке стакато або портато в лівій руці. Клапан відкривається лише частково — звук тихіший, матовіший. Слухач сприймає це як різницю в динаміці, хоча тиск міха залишається тим самим. Два туше в одночасній грі = «рельєфна фактура» за Давидовим."
+  },
+  {
+    cat: "tushe",
+    title: "Туше — інтелект виконавця",
+    theory: "Стильове виконання — це передусім «інтелект виконавця», втілений у диференційованому туше.",
+    practice: "Не динамічні вилки на нотах, а живе керування глибиною натискання у кожен момент. Кожен голос у поліфонії має своє туше. Механічне рівномірне натискання — ознака відсутності стильового мислення."
+  },
+  {
+    cat: "tushe",
+    title: "Акцент — не удар, а вага",
+    theory: "Акцентування на баяні реалізується не ударним рухом пальця, а посиленням тиску міха у поєднанні з поглибленим натисканням клавіші.",
+    practice: "Різкий ударний рух дає грубий, «стукаючий» акцент. Ваговий імпульс — інтонаційно виправданий акцент зі збереженням співучості. Тренуй: та сама нота, та сама динаміка — але принципово різні за характером акценти."
+  },
+
+  // МЕХ
+  {
+    cat: "mekh",
+    title: "Міх — дихання баяніста",
+    theory: "Міх є головним засобом звукоутворення на баяні — аналогом дихання у співака і смичка у скрипаля.",
+    practice: "Напрямок, швидкість, кут і тиск міха визначають характер кожного звуку. Баяніст мислить міхом так само, як співак — диханням: фраза починається і закінчується рухом міха, а не пальцем."
+  },
+  {
+    cat: "mekh",
+    title: "Зміна міха — маскування «мертвої точки»",
+    theory: "У момент зміни напрямку міха виникає короткочасна пауза в потоці повітря — «мертва точка». Її маскування — найвища технічна майстерність.",
+    practice: "Прийом: безпосередньо перед зміною — злегка зменши тиск пальця. У момент зміни — різко, але м'яко натисни клавішу до кінця. Залишковий тиск проходить вільніше, язичок не зупиняється. Аналог: садовий шланг — вода продовжує текти в момент зміни тиску. Тренуй на одній ноті: сусід не повинен чути момент зміни."
+  },
+  {
+    cat: "mekh",
+    title: "Палець випереджає міх на долю секунди",
+    theory: "У техніці маскування «мертвої точки» палець повинен випереджати зміну міха — це створює акустичну ілюзію безперервного звуку.",
+    practice: "Послідовність: 1) попередній тиск на клавішу; 2) зміна міха; 3) звільнення. На практиці це зливається в один нероздільний рух. Лише повільне тренування із самоконтролем на слух виявляє правильність техніки."
+  },
+  {
+    cat: "mekh",
+    title: "Динаміка міха — основа нюансування",
+    theory: "Вся динамічна шкала баяна реалізується через керування швидкістю і тиском міха, а не через силу натискання клавіші.",
+    practice: "Piano — повільний, легкий міх. Forte — швидкий, насичений. Crescendo — поступове прискорення. Diminuendo — поступове уповільнення. Міх і туше працюють у парі: одне без іншого не дає художнього результату."
+  },
+  {
+    cat: "mekh",
+    title: "Філіровка — без пафосу",
+    theory: "Філіровка (diminuendo на витриманій ноті) — найтонший прийом нюансування, що потребує повного слухового контролю над поступовим згасанням звуку.",
+    practice: "У класицизмі та бароко філіровка виконується без романтичного пафосу: звук згасає рівно, без вібрато, зі збереженням чіткості тону до кінця. Міх уповільнюється поступово — жодного «провалу» тиску."
+  },
+
+  // СТИЛЬОВЕ ВИКОНАННЯ
+  {
+    cat: "style",
+    title: "Стильове виконання — інтелект виконавця",
+    theory: "Стильове виконання за Давидовим — не набір зовнішніх ознак епохи, а результат глибокого розуміння музичного мислення композитора.",
+    practice: "Виконавець зобов'язаний знати: гармонічну мову епохи, типові форми і жанри, риторичні принципи (для бароко), принципи симетрії (для класицизму), емоційну широту (для романтизму). Стиль — це «виконавський інтелект», втілений у кожному звуці."
+  },
+  {
+    cat: "style",
+    title: "Виконавець = співавтор композитора",
+    theory: "Давидов розглядає виконавця як співтворчу особистість, а не механічного відтворювача нотного тексту.",
+    practice: "Нотний текст — лише відправна точка. Виконавець «добудовує» твір через стиль, артикуляцію, нюансування. Особливо важливо в музиці бароко і раннього класицизму, де багато чого не виписано — орнаменти, динаміка, штрихи."
+  },
+  {
+    cat: "style",
+    title: "Тріада виразових засобів",
+    theory: "Давидов виділяє три основних засоби виконавської виразності: темпо-ритм, динаміка, артикуляція — як єдиний комплекс.",
+    practice: "Зміна одного елемента неминуче впливає на інші. Швидкий темп потребує іншої артикуляції. Гучна динаміка змінює характер штриха. На баяні ця тріада реалізується через: темп міха (ритм), тиск міха (динаміка), туше і артикуляція пальців (штрих)."
+  },
+
+  // БАРОКО
+  {
+    cat: "baroque",
+    title: "Бароко: фіксований міх",
+    theory: "Орган — основний прообраз баяна в музиці бароко. Органний звук не має динамічної еволюції — він статичний за природою.",
+    practice: "Імітуй орган: мінімальні зміни тиску міха всередині фрази. Міх рухається рівно, без crescendo і diminuendo на окремих нотах. Динамічні контрасти — лише між розділами (принцип «терасної динаміки»): forte tutti — piano solo."
+  },
+  {
+    cat: "baroque",
+    title: "Бароко: non legato як основа",
+    theory: "Клавесин і орган — артикуляційні прообрази. На клавесині немає legato в сучасному розумінні: кожен звук має чітку атаку і відрив.",
+    practice: "Non legato — базова артикуляція бароко на баяні. Невеликі розриви між нотами — не випадковість, а «вимовляння» музичної мови. Legato застосовуй лише там, де ліга виписана явно. На стрибках — більший розрив, на секундах — менший."
+  },
+  {
+    cat: "baroque",
+    title: "Бароко: прикраси від верхньої ноти",
+    theory: "У барочній практиці (Бах, Гендель) трелі і прикраси починаються від верхнього допоміжного звуку на сильній долі.",
+    practice: "Трель — від верхнього допоміжного, на сильній долі. Мордент — чіткий, не змазаний. Апподжатура — затримана, з нюансом на ній. Форшлаг — короткий, за рахунок попередньої ноти. Прикраси не уповільнюють темп — вони частина ритмічної структури."
+  },
+  {
+    cat: "baroque",
+    title: "Бароко: без вібрато",
+    theory: "Інструменти епохи бароко (клавесин, орган) позбавлені вібрато. Вібрато — явище романтичне, чуже барочній естетиці.",
+    practice: "Повна заборона вібрато в музиці бароко на баяні. Звук — чистий, прямий, «кристалічний». Виняток: вібрато у вокальних перекладеннях в особливо виразних місцях — але як рідкісне, усвідомлене відступлення, а не як норма."
+  },
+
+  // КЛАСИЦИЗМ
+  {
+    cat: "classicism",
+    title: "Класицизм: гомофонія і баланс голосів",
+    theory: "Класицизм ґрунтується на гомофонно-гармонічній фактурі: мелодія явно виділена над акомпанементом.",
+    practice: "На баяні: мелодія (права рука) — глибоке туше, повний спектр. Акомпанемент (ліва рука) — м'яке портато, мінімальний хід клапана. Баланс 70/30. Слухач повинен сприймати акомпанемент як фон, а не як конкуруючий голос."
+  },
+  {
+    cat: "classicism",
+    title: "Класицизм: симетрія фраз",
+    theory: "Класична фраза будується за принципом питання–відповідь: два рівних за довжиною побудування з різними каденціями.",
+    practice: "«Питання» — фраза закінчується на нестійкому акорді (напівкаденція): міх не зупиняється, невелике уповільнення. «Відповідь» — стійка каденція: легке послаблення міха, м'яке зняття. Динамічний план: «питання» — 8' + 4', «відповідь» — 8' (ефект ехо)."
+  },
+  {
+    cat: "classicism",
+    title: "Класицизм: м'яке зняття і легато в мелодії",
+    theory: "У класичній кантилені мелодія виконується legato, а акомпанемент — staccato або portato. Це створює рельєфну фактуру.",
+    practice: "Legato в мелодії досягається плавним рухом міха + глибоким плавним натисканням клавіш без розривів. Staccato в акомпанементі — короткі точні торкання з мінімальним ходом клапана. Кінці фраз — м'яке згасання міха без різкого обриву."
+  },
+
+  // РЕГІСТРИ
+  {
+    cat: "regs",
+    title: "Кларнет 8' — основний регістр класицизму",
+    theory: "Регістр кларнета (8') найбільш чутливий до пальцевого туше — він найкраще передає нюанси натискання.",
+    practice: "Саме на кларнеті 8' туше «працює» максимально: різниця між матовим і яскравим звуком найбільш відчутна. Класика, Гайдн, Моцарт, ранній Бетховен — основний регістр. Чутливість до туше робить його і найвимогливішим."
+  },
+  {
+    cat: "regs",
+    title: "Фагот 16' — глибина і насиченість",
+    theory: "Регістр фагота (16') додає теплу глибину звучанню, особливо в середньому і нижньому регістрах.",
+    practice: "Використовуй для створення багатого «оркестрового» звуку. У класицизмі — як додатковий колір до кларнета 8'. У романтизмі — ширше, як основний в експресивних епізодах. Сам по собі 16' без 8' звучить важко — комбінуй."
+  },
+  {
+    cat: "regs",
+    title: "Флейта 4' — легкість і прозорість",
+    theory: "Регістр флейти (4') надає звуку прозорість і легкість, особливо ефективний у високому регістрі.",
+    practice: "Для легких, витончених пасажів, поліфонічних голосів другого плану, пікантних штрихів. У класицизмі — для контрапункту на противагу темі. Не використовуй у низькому регістрі — там флейта втрачає привабливість і звучить порожньо."
+  },
+  {
+    cat: "regs",
+    title: "Динамічна реєстровка — ефект ехо",
+    theory: "Давидов описує прийом «динамічної реєстровки»: зміна регістру всередині виконання створює акустичний ефект ехо.",
+    practice: "Класичний прийом: фраза-питання — 8' + 4' (яскравіше). Фраза-відповідь — лише 8' (тихіше, як ехо). Слухач сприймає це як динамічний контраст p–f, хоча реальна динаміка міха залишається тією самою. Особливо ефективно в сонатах епохи класицизму."
+  },
+  {
+    cat: "regs",
+    title: "Ліва рука: однорядний регістр",
+    theory: "Для лівої руки в поліфонічних творах Давидов рекомендує однорядний регістр, споріднений з правою рукою, але тихіший.",
+    practice: "Ліва рука в однорядному регістрі звучить прозоріше і не «замутнює» поліфонічну тканину. Співвідношення: права — кларнет 8', ліва — полегшений кларнет або одноголосний регістр. Динаміка лівої завжди нижча від правої — це обов'язкова умова балансу фактури."
+  }
+];
+
+let currentCat = "all", currentSearch = "", openIdx = null;
+
+function render() {
+  const grid = document.getElementById("grid");
+  const empty = document.getElementById("empty");
+  const q = currentSearch.toLowerCase();
+  const filtered = data.map((p,i) => ({...p,origIdx:i})).filter(p => {
+    const catOk = currentCat === "all" || p.cat === currentCat;
+    const textOk = !q || p.title.toLowerCase().includes(q) || p.practice.toLowerCase().includes(q) || p.theory.toLowerCase().includes(q);
+    return catOk && textOk;
+  });
+  document.getElementById("shown-n").textContent = filtered.length;
+  if (!filtered.length) { grid.innerHTML=""; empty.style.display="block"; return; }
+  empty.style.display = "none";
+  grid.innerHTML = filtered.map((p,i) => {
+    const isOpen = openIdx === p.origIdx;
+    return `<div class="card cat-${p.cat}${isOpen?" open":""}" onclick="toggle(${p.origIdx})" style="animation-delay:${i*0.04}s">
+      <div class="card-top">
+        <div class="card-row">
+          <div class="card-num">${String(p.origIdx+1).padStart(2,"0")}</div>
+          <div class="card-meta">
+            <div class="card-title">${p.title}</div>
+            <span class="card-badge">${CAT_LABELS[p.cat]}</span>
+          </div>
+          <div class="chevron">${isOpen?"▲":"▼"}</div>
+        </div>
+      </div>
+      <div class="card-body${isOpen?" open":""}">
+        <div class="body-inner">
+          <div class="section-label">Теорія — Давидов:</div>
+          <div class="theory-block">${p.theory}</div>
+          <div class="section-label">На практиці:</div>
+          <div class="practice-block">${p.practice}</div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function toggle(idx) { openIdx = openIdx===idx ? null : idx; render(); }
+
+document.getElementById("filters").addEventListener("click", e => {
+  const btn = e.target.closest(".fbtn");
+  if (!btn) return;
+  currentCat = btn.dataset.cat; openIdx = null;
+  document.querySelectorAll(".fbtn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active"); render();
+});
+
+document.getElementById("search").addEventListener("input", e => {
+  currentSearch = e.target.value; openIdx = null; render();
+});
+
+render();
+</script>
+</body>
+</html>
